@@ -36,6 +36,10 @@ class RunImportController:UIViewController {
                     self.importFiles(urls: self.urls!)
                 }
             }else{
+                Util.showAlert(controller: self, title: "Error accessing health data", message: "There was an error accessing the health data") {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                
                 print(error)
             }
         }

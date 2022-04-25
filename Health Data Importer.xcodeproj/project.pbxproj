@@ -345,6 +345,7 @@
 				DEVELOPMENT_TEAM = RCK97TRSW5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Health Data Importer/Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -375,6 +376,7 @@
 				DEVELOPMENT_TEAM = RCK97TRSW5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Health Data Importer/Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
