@@ -9,11 +9,17 @@ import UIKit
 import HealthKit
 
 class ConfigureImportController: UIViewController {
+    private var inputs: [ConfigureInput]!
+    
     var datatype: Datatype?
     var urls: [URL]?
     
-    private var labels: [UILabel] = []
-    private var textFields: [UITextField] = []
+    private var labels: [InputIdentifier: UILabel] = [:]
+    private var textFields: [InputIdentifier: UITextField] = [:]
+    private var openColumnPickers: [InputIdentifier: UIButton] = [:]
+    private var columnPickerControllers: [InputIdentifier: ColumnConfigurationController] = [:]
+    private var coloumnPickerTags: [Int: InputIdentifier] = [:]
+    private var columnPickerResults: [InputIdentifier: [Int]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,30 +29,75 @@ class ConfigureImportController: UIViewController {
         navigationItem.title = "Configure Import"
         addNextButton()
         
-        let inputs = Util.configurationInputs[datatype!.identifier]!
+        inputs = Util.configurationInputs[datatype!.identifier]!
+        
+        var tag = 0
         
         for input in inputs {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
             label.text = input.label
             label.textColor = UIColor.label
-            
-            let textField = UITextField()
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.placeholder = input.placeholder
-            textField.keyboardType = input.keyboardType
-            textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-            
-            labels.append(label)
-            textFields.append(textField)
-        }
-        
-        for (i, label) in labels.enumerated() {
+            labels[input.identifier] = label
             view.addSubview(label)
-            view.addSubview(textFields[i])
+            
+            if(input is TextConfigureInput){
+                let input = input as! TextConfigureInput
+                
+                let textField = UITextField()
+                textField.translatesAutoresizingMaskIntoConstraints = false
+                textField.placeholder = input.placeholder
+                textField.text = input.placeholder
+                textField.keyboardType = input.keyboardType
+                textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+                textFields[input.identifier] = textField
+                view.addSubview(textField)
+            }else if(input is ColumnPickerInput){
+                let input = input as! ColumnPickerInput
+                
+                let openColumnPickerButton = UIButton()
+                openColumnPickerButton.translatesAutoresizingMaskIntoConstraints = false
+                openColumnPickerButton.setTitle("Set column number", for: .normal)
+                openColumnPickerButton.setTitleColor(UIColor.label, for: .normal)
+                openColumnPickerButton.tag = tag
+                coloumnPickerTags[tag] = input.identifier
+                tag += 1
+                openColumnPickerButton.addTarget(self, action: #selector(openColoumnPicker), for: .touchUpInside)
+                openColumnPickers[input.identifier] = openColumnPickerButton
+                view.addSubview(openColumnPickerButton)
+            }
         }
         
         setupConstraints()
+    }
+    
+    @objc private func openColoumnPicker(sender: UIButton){
+        if(columnPickerControllers[coloumnPickerTags[sender.tag]!] == nil){
+            columnPickerControllers[coloumnPickerTags[sender.tag]!] = ColumnConfigurationController()
+        }
+        
+        var foundInput: ColumnPickerInput?
+        
+        for input in inputs {
+            if(input.identifier == coloumnPickerTags[sender.tag]){
+                foundInput = input as? ColumnPickerInput
+            }
+        }
+        
+        columnPickerControllers[coloumnPickerTags[sender.tag]!]!.multiSelect = foundInput?.multiSelect
+        columnPickerControllers[coloumnPickerTags[sender.tag]!]!.subInputs = foundInput?.subInputs
+        
+        columnPickerControllers[coloumnPickerTags[sender.tag]!]!.label = foundInput?.label
+        columnPickerControllers[coloumnPickerTags[sender.tag]!]!.urls = urls
+        columnPickerControllers[coloumnPickerTags[sender.tag]!]!.onChange = {
+            self.columnPickerResults[self.coloumnPickerTags[sender.tag]!] = self.columnPickerControllers[self.coloumnPickerTags[sender.tag]!]!.selectedRows
+            
+            self.openColumnPickers[self.coloumnPickerTags[sender.tag]!]?.setTitle("Preview: " + self.columnPickerControllers[self.coloumnPickerTags[sender.tag]!]!.getPreviewText(), for: .normal)
+            
+            self.checkInputs()
+        }
+        
+        present(columnPickerControllers[coloumnPickerTags[sender.tag]!]!, animated: true)
     }
     
     private func addNextButton(){
@@ -67,46 +118,88 @@ class ConfigureImportController: UIViewController {
     }
     
     private func setupConstraints(){
-        for(i, label) in labels.enumerated() {
+        var previousUIView: UIView?
+        
+        for(i, input) in inputs.enumerated() {
             var topConstant:CGFloat = 10
             var topAnchor = view.topAnchor
             
             if(i == 0){
                 topConstant = 100
             }else{
-                topAnchor = textFields[i-1].bottomAnchor
+                topAnchor = previousUIView!.bottomAnchor
             }
             
-            label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-            label.topAnchor.constraint(equalTo: topAnchor, constant: topConstant).isActive = true
-            textFields[i].widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-            textFields[i].topAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
+            labels[input.identifier]!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            labels[input.identifier]!.topAnchor.constraint(equalTo: topAnchor, constant: topConstant).isActive = true
+            
+            if(input is TextConfigureInput){
+                textFields[input.identifier]!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                textFields[input.identifier]!.topAnchor.constraint(equalTo: labels[input.identifier]!.bottomAnchor, constant: 5).isActive = true
+                previousUIView = textFields[input.identifier]!
+            }else if(input is ColumnPickerInput){
+                openColumnPickers[input.identifier]!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                openColumnPickers[input.identifier]!.topAnchor.constraint(equalTo: labels[input.identifier]!.bottomAnchor, constant: 5).isActive = true
+                previousUIView = openColumnPickers[input.identifier]!
+            }
         }
         
         view.setNeedsLayout()
     }
     
     @objc private func textFieldChanged(){
-        checkTextFields()
+        checkInputs()
     }
     
-    private func checkTextFields(){
+    private func checkInputs(){
         var valid = true
         
-        for textField in textFields {
-            if(textField.text?.count == 0){
-                valid = false
+        for (input) in inputs {
+            if(input is TextConfigureInput){
+                if(textFields[input.identifier]?.text?.count == 0){
+                    valid = false
+                }
+            }else if(input is ColumnPickerInput){
+                if(columnPickerResults[input.identifier]?.count == 0){
+                    valid = false
+                }
+                
+                let controller = columnPickerControllers[input.identifier]
+                
+                if(controller != nil){
+                    for subInput in controller!.subInputs! {
+                        if(subInput is TextConfigureInput){
+                            if(controller!.textFields[subInput.identifier]?.text?.count == 0){
+                                valid = false
+                            }
+                        }
+                    }
+                }else{
+                    valid = false
+                }
             }
         }
+
         
         navigationItem.rightBarButtonItems?[1].isEnabled = valid
     }
     
     @objc private func onNextButtonPressed(){
-        var values: [String] = []
+        var values: [InputIdentifier:Any] = [:]
         
-        for textField in textFields {
-            values.append(textField.text!)
+        for (input) in inputs {
+            if(input is TextConfigureInput){
+                values[input.identifier] = textFields[input.identifier]!.text
+            }else if(input is ColumnPickerInput){
+                let input = input as! ColumnPickerInput
+                
+                values[input.identifier] = columnPickerResults[input.identifier]
+                
+                for subInput in input.subInputs {
+                    let controller = columnPickerControllers[input.identifier]!
+                    values[subInput.identifier] = controller.textFields[subInput.identifier]?.text
+                }
+            }
         }
         
         do {

@@ -30,8 +30,25 @@ struct ImportSource {
     let identifier: String
 }
 
-struct ConfigureInput {
+enum InputIdentifier {
+    case dataPosition, datePositions, dateFormat
+}
+
+protocol ConfigureInput {
+    var label: String { get }
+    var identifier: InputIdentifier { get }
+}
+
+struct TextConfigureInput: ConfigureInput {
+    let identifier: InputIdentifier
     let label: String
     let placeholder: String
     let keyboardType: UIKeyboardType
+}
+
+struct ColumnPickerInput: ConfigureInput {
+    let identifier: InputIdentifier
+    let label: String
+    let subInputs: [ConfigureInput]
+    let multiSelect: Bool
 }

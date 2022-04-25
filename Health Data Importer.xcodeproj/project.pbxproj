@@ -20,6 +20,7 @@
 		C283538D2816C58C00F9DC02 /* ConfigureImportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */; };
 		C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538E2816D21A00F9DC02 /* RunImportController.swift */; };
 		C28353922816DAD800F9DC02 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353912816DAD800F9DC02 /* Util.swift */; };
+		C28353942816F2D900F9DC02 /* ColumnConfigurationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureImportController.swift; sourceTree = "<group>"; };
 		C283538E2816D21A00F9DC02 /* RunImportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunImportController.swift; sourceTree = "<group>"; };
 		C28353912816DAD800F9DC02 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnConfigurationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				C283538A2816C20C00F9DC02 /* SelectDataTypeController.swift */,
 				C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */,
 				C283538E2816D21A00F9DC02 /* RunImportController.swift */,
+				C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			files = (
 				C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */,
 				C28353922816DAD800F9DC02 /* Util.swift in Sources */,
+				C28353942816F2D900F9DC02 /* ColumnConfigurationController.swift in Sources */,
 				C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */,
 				C28353862816B1CE00F9DC02 /* ViewController.swift in Sources */,
 				C28353892816C1EB00F9DC02 /* Structs.swift in Sources */,
