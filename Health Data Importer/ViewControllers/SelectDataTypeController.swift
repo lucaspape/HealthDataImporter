@@ -9,8 +9,6 @@ import UIKit
 import HealthKit
 
 class SelectDataTypeController: UIViewController {
-    private let options:[Datatype] = [Datatype(name: "Heart-Rate", identifier: .heartRate)]
-    
     private var stack: UIStackView!
     
     override func viewDidLoad() {
@@ -22,7 +20,7 @@ class SelectDataTypeController: UIViewController {
         
         var subViews: [UIView] = []
         
-        for (index, option) in options.enumerated() {
+        for (index, option) in Util.datatypes.enumerated() {
             let button = UIButton()
             button.setTitle(option.name, for: .normal)
             button.setTitleColor(UIColor.label, for: .normal)
@@ -49,15 +47,10 @@ class SelectDataTypeController: UIViewController {
     }
     
     @objc private func onOptionClick(sender: UIButton){
-        let option = options[sender.tag]
+        let datatype = Util.datatypes[sender.tag]
         
-        switch option.identifier {
-            case .heartRate:
-                let importFromController = ImportFromController()
-                importFromController.datatype = option
-                navigationController?.pushViewController(importFromController, animated: true)
-            default:
-                print("Option not found")
-        }
+        let importFromController = ImportFromController()
+        importFromController.datatype = datatype
+        navigationController?.pushViewController(importFromController, animated: true)
     }
 }

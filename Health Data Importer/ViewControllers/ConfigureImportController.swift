@@ -15,8 +15,6 @@ class ConfigureImportController: UIViewController {
     private var labels: [UILabel] = []
     private var textFields: [UITextField] = []
     
-    let inputs = [ConfigureInput(label: "Data position", placeholder: "2"), ConfigureInput(label: "Date positions", placeholder: "0,1"), ConfigureInput(label: "Date format", placeholder: "dd-MM-yy_HH-mm"), ConfigureInput(label: "Date seperator", placeholder: "_")]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +22,8 @@ class ConfigureImportController: UIViewController {
         
         navigationItem.title = "Configure Import"
         addNextButton()
+        
+        let inputs = Util.configurationInputs[datatype!.identifier]!
         
         for input in inputs {
             let label = UILabel()
@@ -34,6 +34,7 @@ class ConfigureImportController: UIViewController {
             let textField = UITextField()
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.placeholder = input.placeholder
+            textField.keyboardType = input.keyboardType
             textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
             
             labels.append(label)
@@ -108,33 +109,19 @@ class ConfigureImportController: UIViewController {
             values.append(textField.text!)
         }
         
-        let dataStructure: Any?
-        
-        switch(datatype!.identifier){
-            case .heartRate:
-                print(values)
-                let dataPosition = Int(String(values[0]))!
-                var datePositions: [Int] = []
+        do {
+            let dataStructure = try Util.inputListToDataStructure(input: values, datatype: datatype!)
             
-                for position in values[1].split(separator: ","){
-                    datePositions.append(Int(String(position))!)
-                }
+            let runImportController = RunImportController()
+            runImportController.dataStructure = dataStructure
+            runImportController.urls = urls
+            runImportController.datatype = datatype
             
-                let dateFormat = values[2]
-                let dateSeperator = values[3]
-            
-                dataStructure = HeartRateDataStructure(dateFormat: dateFormat, datePositions: datePositions, dateSeperator: dateSeperator, dataPosition: dataPosition, skipFirstLine: true)
+            navigationController?.pushViewController(runImportController, animated: true)
+        }catch{
+            Util.showAlert(controller: self, title: "Error parsing input", message: "There was a parse error. Please check your inputs") {
                 
-            default:
-                dataStructure = nil
-                print("Does not suport identifier")
+            }
         }
-        
-        let runImportController = RunImportController()
-        runImportController.dataStructure = dataStructure
-        runImportController.urls = urls
-        runImportController.datatype = datatype
-        
-        navigationController?.pushViewController(runImportController, animated: true)
     }
 }

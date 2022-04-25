@@ -9,7 +9,7 @@ import UIKit
 import HealthKit
 
 class RunImportController:UIViewController {
-    var dataStructure: Any?
+    var dataStructure: DataStructure?
     var urls: [URL]?
     var datatype: Datatype?
     
@@ -32,7 +32,9 @@ class RunImportController:UIViewController {
         
         requestHealthAccess { success, error in
             if(success){
-                self.importFiles(urls: self.urls!)
+                DispatchQueue.global(qos: .background).async {
+                    self.importFiles(urls: self.urls!)
+                }
             }else{
                 print(error)
             }
@@ -40,20 +42,22 @@ class RunImportController:UIViewController {
     }
     
     func showLoading(message: String){
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
 
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        loadingIndicator.startAnimating();
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.style = .medium
+            loadingIndicator.startAnimating()
 
-        alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
+            alert.view.addSubview(loadingIndicator)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    func hideLoading(){
+    func hideLoading(completion: @escaping () -> Void){
         DispatchQueue.main.async {
-            self.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: false, completion: completion)
         }
     }
     
@@ -64,20 +68,20 @@ class RunImportController:UIViewController {
             healthStore = HKHealthStore()
             
             healthStore.requestAuthorization(toShare: typesToShare, read: nil) { success, error in
-                if(success){
-                    completion(true, "")
-                }else if(error != nil){
-                    completion(true, error!.localizedDescription)
-                }else{
-                    completion(false, "Access to health data failed")
+                self.hideLoading {
+                    if(success){
+                        completion(true, "")
+                    }else if(error != nil){
+                        completion(true, error!.localizedDescription)
+                    }else{
+                        completion(false, "Access to health data failed")
+                    }
                 }
-                
-                self.hideLoading()
             }
         }else{
-            completion(false, "Access to health data failed")
-            
-            hideLoading()
+            hideLoading {
+                completion(false, "Access to health data failed")
+            }
         }
     }
     
@@ -88,13 +92,17 @@ class RunImportController:UIViewController {
             case .heartRate:
                 for url in urls {
                     importHeartRateFile(url: url, heartRateDataStructure: dataStructure  as! HeartRateDataStructure) { success, inserted, errors in
-                        self.hideLoading()
-                        
-                        DispatchQueue.main.async {
-                            if(success){
-                                self.showCompletionAlert(title: "Imported data successfully", message: "Successfully inserted " + String(inserted) + " objects")
-                            }else{
-                                self.showCompletionAlert(title: "Failed to import data", message: "There was an error importing the data")
+                        self.hideLoading {
+                            DispatchQueue.main.async {
+                                if(success){
+                                    Util.showAlert(controller: self,title: "Imported data successfully", message: "Successfully inserted " + String(inserted) + " objects") {
+                                        self.navigationController?.popToRootViewController(animated: true)
+                                    }
+                                }else{
+                                    Util.showAlert(controller: self,title: "Failed to import data", message: "There was an error importing the data") {
+                                        self.navigationController?.popToRootViewController(animated: true)
+                                    }
+                                }
                             }
                         }
                     }
@@ -102,14 +110,6 @@ class RunImportController:UIViewController {
             default:
                 print("unknown type")
         }
-    }
-    
-    func showCompletionAlert(title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            self.navigationController?.popToRootViewController(animated: true)
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
     
     func importHeartRateFile(url: URL, heartRateDataStructure: HeartRateDataStructure, completion: @escaping (Bool, Int, [String]) -> Void){
