@@ -20,11 +20,13 @@ struct HeartRateDataStructure {
 
 class ViewController: UIViewController, UIDocumentPickerDelegate {
     
-    private var selectFileButton: UIButton!
+    private var navigationBar: UINavigationBar!
+    
+    private var placeholder: UILabel!
     
     private var healthStore: HKHealthStore!
     
-    private let selectedSampleType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+    private let selectedSampleType:HKQuantityTypeIdentifier = .heartRate
     
     private var typesToShare: Set<HKSampleType>{
         return [HKQuantityType.quantityType(forIdentifier: .heartRate)!]
@@ -33,15 +35,35 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.selectFileButton = UIButton()
-        self.selectFileButton.translatesAutoresizingMaskIntoConstraints = false
-        self.selectFileButton.setTitle("Select files to import", for: .normal)
-        self.selectFileButton.setTitleColor(UIColor.label, for: .normal)
-        self.selectFileButton.addTarget(self, action: #selector(self.selectFileButtonPressed), for: .touchUpInside)
+        navigationBar = UINavigationBar()
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        let navigationItem = UINavigationItem(title: "Health Data Importer")
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        navigationItem.rightBarButtonItem = addItem
+        navigationBar.setItems([navigationItem], animated: false)
         
-        self.view.addSubview(self.selectFileButton)
+        placeholder = UILabel()
+        placeholder.translatesAutoresizingMaskIntoConstraints = false
+        placeholder.text = "PLACEHOLDER"
+        placeholder.textColor = UIColor.label
         
-        self.setupConstraints()
+        view.addSubview(navigationBar)
+        view.addSubview(placeholder)
+        
+        setupConstraints()
+    }
+    
+    func setupConstraints(){
+        navigationBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        //navigationBar.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        navigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        placeholder.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        placeholder.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        placeholder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        placeholder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        view.setNeedsLayout()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,13 +90,8 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
         }
     }
     
-    func setupConstraints(){
-        selectFileButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        selectFileButton.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        selectFileButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        selectFileButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        view.setNeedsLayout()
+    @objc func addButtonPressed(){
+        let importController = ImportController()
     }
     
     @objc func selectFileButtonPressed(){
@@ -99,7 +116,7 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
     
     func importFiles(urls: [URL]){
         switch selectedSampleType {
-            case HKQuantityType.quantityType(forIdentifier: .heartRate)!:
+            case .heartRate:
                 for url in urls {
                     importHeartRateFile(url: url, heartRateDataStructure: HeartRateDataStructure(dateFormat: "dd-MM-yy_HH-mm", datePositions: [0,1], dateSeperator: "_", dataPosition: 2, skipFirstLine: true)) { success, inserted, errors in
                         if(success){

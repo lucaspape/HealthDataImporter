@@ -9,24 +9,34 @@
 /* Begin PBXBuildFile section */
 		C23B234F2816898100DD02AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23B234E2816898100DD02AA /* AppDelegate.swift */; };
 		C23B23512816898100DD02AA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23B23502816898100DD02AA /* SceneDelegate.swift */; };
-		C23B23532816898100DD02AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23B23522816898100DD02AA /* ViewController.swift */; };
 		C23B23562816898100DD02AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C23B23542816898100DD02AA /* Main.storyboard */; };
 		C23B23582816898300DD02AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C23B23572816898300DD02AA /* Assets.xcassets */; };
 		C23B235B2816898300DD02AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C23B23592816898300DD02AA /* LaunchScreen.storyboard */; };
 		C23B23652816961800DD02AA /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23B23642816961800DD02AA /* HealthKit.framework */; };
+		C28353862816B1CE00F9DC02 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353842816B1CE00F9DC02 /* ViewController.swift */; };
+		C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353852816B1CE00F9DC02 /* ImportFromController.swift */; };
+		C28353892816C1EB00F9DC02 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353882816C1EB00F9DC02 /* Structs.swift */; };
+		C283538B2816C20C00F9DC02 /* SelectDataTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538A2816C20C00F9DC02 /* SelectDataTypeController.swift */; };
+		C283538D2816C58C00F9DC02 /* ConfigureImportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */; };
+		C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538E2816D21A00F9DC02 /* RunImportController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C23B234B2816898100DD02AA /* Health Data Importer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Health Data Importer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C23B234E2816898100DD02AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C23B23502816898100DD02AA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C23B23522816898100DD02AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C23B23552816898100DD02AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C23B23572816898300DD02AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C23B235A2816898300DD02AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C23B235C2816898300DD02AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C23B23622816961800DD02AA /* Health Data Importer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Health Data Importer.entitlements"; sourceTree = "<group>"; };
 		C23B23642816961800DD02AA /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		C28353842816B1CE00F9DC02 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../../../../../Desktop/ViewController.swift; sourceTree = "<group>"; };
+		C28353852816B1CE00F9DC02 /* ImportFromController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromController.swift; path = ../../../../../Desktop/ImportFromController.swift; sourceTree = "<group>"; };
+		C28353882816C1EB00F9DC02 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		C283538A2816C20C00F9DC02 /* SelectDataTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDataTypeController.swift; sourceTree = "<group>"; };
+		C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureImportController.swift; sourceTree = "<group>"; };
+		C283538E2816D21A00F9DC02 /* RunImportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunImportController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,14 +71,15 @@
 		C23B234D2816898100DD02AA /* Health Data Importer */ = {
 			isa = PBXGroup;
 			children = (
+				C283537F2816B16400F9DC02 /* ViewControllers */,
 				C23B23622816961800DD02AA /* Health Data Importer.entitlements */,
 				C23B234E2816898100DD02AA /* AppDelegate.swift */,
 				C23B23502816898100DD02AA /* SceneDelegate.swift */,
-				C23B23522816898100DD02AA /* ViewController.swift */,
 				C23B23542816898100DD02AA /* Main.storyboard */,
 				C23B23572816898300DD02AA /* Assets.xcassets */,
 				C23B23592816898300DD02AA /* LaunchScreen.storyboard */,
 				C23B235C2816898300DD02AA /* Info.plist */,
+				C28353882816C1EB00F9DC02 /* Structs.swift */,
 			);
 			path = "Health Data Importer";
 			sourceTree = "<group>";
@@ -79,6 +90,18 @@
 				C23B23642816961800DD02AA /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C283537F2816B16400F9DC02 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C28353852816B1CE00F9DC02 /* ImportFromController.swift */,
+				C28353842816B1CE00F9DC02 /* ViewController.swift */,
+				C283538A2816C20C00F9DC02 /* SelectDataTypeController.swift */,
+				C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */,
+				C283538E2816D21A00F9DC02 /* RunImportController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,9 +175,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C23B23532816898100DD02AA /* ViewController.swift in Sources */,
+				C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */,
+				C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */,
+				C28353862816B1CE00F9DC02 /* ViewController.swift in Sources */,
+				C28353892816C1EB00F9DC02 /* Structs.swift in Sources */,
+				C283538B2816C20C00F9DC02 /* SelectDataTypeController.swift in Sources */,
 				C23B234F2816898100DD02AA /* AppDelegate.swift in Sources */,
 				C23B23512816898100DD02AA /* SceneDelegate.swift in Sources */,
+				C283538D2816C58C00F9DC02 /* ConfigureImportController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
