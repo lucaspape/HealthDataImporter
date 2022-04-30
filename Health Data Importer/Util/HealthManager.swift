@@ -73,6 +73,7 @@ class HealthManager {
     
     static func registerBackgroundTask(){
         BGTaskScheduler.shared.register(forTaskWithIdentifier: HealthManager.backgroundTaskId, using: nil) { task in
+            HealthManager.scheduleBackgroundTask()
             runBackgroundTask(task: task)
         }
         
@@ -81,8 +82,6 @@ class HealthManager {
     
     static private func runBackgroundTask(task: BGTask){
         print("Hello from background task")
-        
-        HealthManager.scheduleBackgroundTask()
         
         task.expirationHandler = {
             print("Task expired")
@@ -104,7 +103,8 @@ class HealthManager {
     }
     
     static func scheduleBackgroundTask(){
-        let request = BGAppRefreshTaskRequest(identifier: HealthManager.backgroundTaskId)
+        let request = BGProcessingTaskRequest(identifier: HealthManager.backgroundTaskId)
+        request.requiresNetworkConnectivity = true
         
         request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         
