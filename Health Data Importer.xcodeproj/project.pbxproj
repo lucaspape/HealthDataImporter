@@ -13,6 +13,8 @@
 		C23B23582816898300DD02AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C23B23572816898300DD02AA /* Assets.xcassets */; };
 		C23B235B2816898300DD02AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C23B23592816898300DD02AA /* LaunchScreen.storyboard */; };
 		C23B23652816961800DD02AA /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23B23642816961800DD02AA /* HealthKit.framework */; };
+		C23F3DA4281DD5BC00035352 /* SyncDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F3DA3281DD5BC00035352 /* SyncDatabase.swift */; };
+		C23F3DA6281DE8A500035352 /* SyncLogDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F3DA5281DE8A400035352 /* SyncLogDatabase.swift */; };
 		C28353862816B1CE00F9DC02 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353842816B1CE00F9DC02 /* ViewController.swift */; };
 		C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353852816B1CE00F9DC02 /* ImportFromController.swift */; };
 		C28353892816C1EB00F9DC02 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353882816C1EB00F9DC02 /* Structs.swift */; };
@@ -21,6 +23,9 @@
 		C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C283538E2816D21A00F9DC02 /* RunImportController.swift */; };
 		C28353922816DAD800F9DC02 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353912816DAD800F9DC02 /* Util.swift */; };
 		C28353942816F2D900F9DC02 /* ColumnConfigurationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */; };
+		C28353962819F90400F9DC02 /* URLInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353952819F90400F9DC02 /* URLInputController.swift */; };
+		C28353982819FA7F00F9DC02 /* SetupSyncController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353972819FA7F00F9DC02 /* SetupSyncController.swift */; };
+		C283539A281A066400F9DC02 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2835399281A066400F9DC02 /* HealthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +38,8 @@
 		C23B235C2816898300DD02AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C23B23622816961800DD02AA /* Health Data Importer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Health Data Importer.entitlements"; sourceTree = "<group>"; };
 		C23B23642816961800DD02AA /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		C23F3DA3281DD5BC00035352 /* SyncDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDatabase.swift; sourceTree = "<group>"; };
+		C23F3DA5281DE8A400035352 /* SyncLogDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLogDatabase.swift; sourceTree = "<group>"; };
 		C28353842816B1CE00F9DC02 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../../../../../Desktop/ViewController.swift; sourceTree = "<group>"; };
 		C28353852816B1CE00F9DC02 /* ImportFromController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromController.swift; path = ../../../../../Desktop/ImportFromController.swift; sourceTree = "<group>"; };
 		C28353882816C1EB00F9DC02 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
@@ -41,6 +48,9 @@
 		C283538E2816D21A00F9DC02 /* RunImportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunImportController.swift; sourceTree = "<group>"; };
 		C28353912816DAD800F9DC02 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnConfigurationController.swift; sourceTree = "<group>"; };
+		C28353952819F90400F9DC02 /* URLInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLInputController.swift; sourceTree = "<group>"; };
+		C28353972819FA7F00F9DC02 /* SetupSyncController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupSyncController.swift; sourceTree = "<group>"; };
+		C2835399281A066400F9DC02 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +85,7 @@
 		C23B234D2816898100DD02AA /* Health Data Importer */ = {
 			isa = PBXGroup;
 			children = (
+				C23F3DA2281DD5AF00035352 /* Database */,
 				C28353902816DACC00F9DC02 /* Util */,
 				C283537F2816B16400F9DC02 /* ViewControllers */,
 				C23B23622816961800DD02AA /* Health Data Importer.entitlements */,
@@ -96,6 +107,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C23F3DA2281DD5AF00035352 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				C23F3DA3281DD5BC00035352 /* SyncDatabase.swift */,
+				C23F3DA5281DE8A400035352 /* SyncLogDatabase.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		C283537F2816B16400F9DC02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +125,8 @@
 				C283538C2816C58C00F9DC02 /* ConfigureImportController.swift */,
 				C283538E2816D21A00F9DC02 /* RunImportController.swift */,
 				C28353932816F2D800F9DC02 /* ColumnConfigurationController.swift */,
+				C28353952819F90400F9DC02 /* URLInputController.swift */,
+				C28353972819FA7F00F9DC02 /* SetupSyncController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -112,6 +134,7 @@
 		C28353902816DACC00F9DC02 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				C2835399281A066400F9DC02 /* HealthManager.swift */,
 				C28353882816C1EB00F9DC02 /* Structs.swift */,
 				C28353912816DAD800F9DC02 /* Util.swift */,
 			);
@@ -192,13 +215,18 @@
 				C283538F2816D21A00F9DC02 /* RunImportController.swift in Sources */,
 				C28353922816DAD800F9DC02 /* Util.swift in Sources */,
 				C28353942816F2D900F9DC02 /* ColumnConfigurationController.swift in Sources */,
+				C23F3DA4281DD5BC00035352 /* SyncDatabase.swift in Sources */,
 				C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */,
 				C28353862816B1CE00F9DC02 /* ViewController.swift in Sources */,
 				C28353892816C1EB00F9DC02 /* Structs.swift in Sources */,
+				C28353982819FA7F00F9DC02 /* SetupSyncController.swift in Sources */,
 				C283538B2816C20C00F9DC02 /* SelectDataTypeController.swift in Sources */,
 				C23B234F2816898100DD02AA /* AppDelegate.swift in Sources */,
 				C23B23512816898100DD02AA /* SceneDelegate.swift in Sources */,
+				C283539A281A066400F9DC02 /* HealthManager.swift in Sources */,
+				C23F3DA6281DE8A500035352 /* SyncLogDatabase.swift in Sources */,
 				C283538D2816C58C00F9DC02 /* ConfigureImportController.swift in Sources */,
+				C28353962819F90400F9DC02 /* URLInputController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 import HealthKit
 import UIKit
 
-protocol DataStructure {
+protocol DataStructure: Codable {
     
 }
 
@@ -51,4 +51,27 @@ struct ColumnPickerInput: ConfigureInput {
     let label: String
     let subInputs: [ConfigureInput]
     let multiSelect: Bool
+}
+
+protocol Sync: Codable {
+    
+}
+
+struct HeartRateSync: Sync {
+    let urlString: String
+    let dataStructure: HeartRateDataStructure
+}
+
+struct SyncWithId {
+    let sync: Sync
+    let id: String
+}
+
+struct Log {
+    let id: String
+    let date: Date
+    let successCount: Int
+    let errorCount: Int
+    let type: String
+    let fileName: String
 }

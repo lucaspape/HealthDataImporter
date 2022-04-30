@@ -8,8 +8,11 @@
 import UIKit
 import HealthKit
 
-class SelectDataTypeController: UIViewController {
-    private var stack: UIStackView!
+class SelectDataTypeController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    private var tableView: UITableView!
+    private var reuseIdentifier = "cell"
+    
+    private var datatypes = Util.datatypes
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,36 +21,42 @@ class SelectDataTypeController: UIViewController {
         
         navigationItem.title = "Select Datatype"
         
-        var subViews: [UIView] = []
+        tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        for (index, option) in Util.datatypes.enumerated() {
-            let button = UIButton()
-            button.setTitle(option.name, for: .normal)
-            button.setTitleColor(UIColor.label, for: .normal)
-            button.addTarget(self, action: #selector(onOptionClick), for: .touchUpInside)
-            button.tag = index
-            
-            subViews.append(button)
-        }
-        
-        stack = UIStackView(arrangedSubviews: subViews)
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        
-        view.addSubview(stack)
+        view.addSubview(tableView)
         
         setupConstraints()
     }
     
     private func setupConstraints(){
-        stack.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        tableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        tableView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         view.setNeedsLayout()
     }
     
-    @objc private func onOptionClick(sender: UIButton){
-        let datatype = Util.datatypes[sender.tag]
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        datatypes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)!
+        
+        let datatype = self.datatypes[indexPath.row]
+        
+        cell.textLabel?.text = datatype.name
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let datatype = self.datatypes[indexPath.row]
         
         let importFromController = ImportFromController()
         importFromController.datatype = datatype

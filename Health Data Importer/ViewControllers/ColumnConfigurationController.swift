@@ -49,78 +49,82 @@ class ColumnConfigurationController: UIViewController, UIPickerViewDelegate, UIP
             
             let lines = data.split(separator: "\n")
             
-            let testLine = lines[1]
-            
-            values = testLine.split(separator: ",")
-            
-            for i in 1...values.count {
-                pickerData.append(String(i))
-            }
-            
-            picker = UIPickerView()
-            picker.translatesAutoresizingMaskIntoConstraints = false
-            picker.delegate = self
-            picker.dataSource = self
-            
-            if(multiSelect!){
-                addAdditionalButton = UIButton()
-                addAdditionalButton.translatesAutoresizingMaskIntoConstraints = false
-                addAdditionalButton.setTitle("Add column", for: .normal)
-                addAdditionalButton.setTitleColor(UIColor.label, for: .normal)
-                addAdditionalButton.addTarget(self, action: #selector(addAdditional), for: .touchUpInside)
+            if(lines.count > 1){
+                let testLine = lines[1]
                 
-                removeAdditionalButton = UIButton()
-                removeAdditionalButton.translatesAutoresizingMaskIntoConstraints = false
-                removeAdditionalButton.setTitle("Remove column", for: .normal)
-                removeAdditionalButton.setTitleColor(UIColor.label, for: .normal)
-                removeAdditionalButton.addTarget(self, action: #selector(removeAdditional), for: .touchUpInside)
-            }
-            
-            previewLabel = UILabel()
-            previewLabel.translatesAutoresizingMaskIntoConstraints = false
-            previewLabel.textColor = UIColor.label
-            previewLabel.text = label! + " preview"
-            
-            preview = UILabel()
-            preview.translatesAutoresizingMaskIntoConstraints = false
-            preview.textColor = UIColor.label
-            preview.text = getPreviewText()
-            onChange()
-            
-            view.addSubview(titleLabel)
-            view.addSubview(picker)
-            
-            if(multiSelect!){
-                view.addSubview(addAdditionalButton)
-                view.addSubview(removeAdditionalButton)
-            }
-            
-            view.addSubview(previewLabel)
-            view.addSubview(preview)
-            
-            for input in subInputs! {
-                let label = UILabel()
-                label.translatesAutoresizingMaskIntoConstraints = false
-                label.text = input.label
-                label.textColor = UIColor.label
-                labels[input.identifier] = label
-                view.addSubview(label)
+                values = testLine.split(separator: ",")
                 
-                if(input is TextConfigureInput){
-                    let input = input as! TextConfigureInput
-                    
-                    let textField = UITextField()
-                    textField.translatesAutoresizingMaskIntoConstraints = false
-                    textField.placeholder = input.placeholder
-                    textField.text = input.placeholder
-                    textField.keyboardType = input.keyboardType
-                    textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-                    textFields[input.identifier] = textField
-                    view.addSubview(textField)
+                for i in 1...values.count {
+                    pickerData.append(String(i))
                 }
+                
+                picker = UIPickerView()
+                picker.translatesAutoresizingMaskIntoConstraints = false
+                picker.delegate = self
+                picker.dataSource = self
+                
+                if(multiSelect!){
+                    addAdditionalButton = UIButton()
+                    addAdditionalButton.translatesAutoresizingMaskIntoConstraints = false
+                    addAdditionalButton.setTitle("Add column", for: .normal)
+                    addAdditionalButton.setTitleColor(UIColor.label, for: .normal)
+                    addAdditionalButton.addTarget(self, action: #selector(addAdditional), for: .touchUpInside)
+                    
+                    removeAdditionalButton = UIButton()
+                    removeAdditionalButton.translatesAutoresizingMaskIntoConstraints = false
+                    removeAdditionalButton.setTitle("Remove column", for: .normal)
+                    removeAdditionalButton.setTitleColor(UIColor.label, for: .normal)
+                    removeAdditionalButton.addTarget(self, action: #selector(removeAdditional), for: .touchUpInside)
+                }
+                
+                previewLabel = UILabel()
+                previewLabel.translatesAutoresizingMaskIntoConstraints = false
+                previewLabel.textColor = UIColor.label
+                previewLabel.text = label! + " preview"
+                
+                preview = UILabel()
+                preview.translatesAutoresizingMaskIntoConstraints = false
+                preview.textColor = UIColor.label
+                preview.text = getPreviewText()
+                onChange()
+                
+                view.addSubview(titleLabel)
+                view.addSubview(picker)
+                
+                if(multiSelect!){
+                    view.addSubview(addAdditionalButton)
+                    view.addSubview(removeAdditionalButton)
+                }
+                
+                view.addSubview(previewLabel)
+                view.addSubview(preview)
+                
+                for input in subInputs! {
+                    let label = UILabel()
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    label.text = input.label
+                    label.textColor = UIColor.label
+                    labels[input.identifier] = label
+                    view.addSubview(label)
+                    
+                    if(input is TextConfigureInput){
+                        let input = input as! TextConfigureInput
+                        
+                        let textField = UITextField()
+                        textField.translatesAutoresizingMaskIntoConstraints = false
+                        textField.placeholder = input.placeholder
+                        textField.text = input.placeholder
+                        textField.keyboardType = input.keyboardType
+                        textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+                        textFields[input.identifier] = textField
+                        view.addSubview(textField)
+                    }
+                }
+                
+                setupConstraints()
+            }else{
+                print("Empty")
             }
-            
-            setupConstraints()
         } catch {
             print("error reading file")
         }

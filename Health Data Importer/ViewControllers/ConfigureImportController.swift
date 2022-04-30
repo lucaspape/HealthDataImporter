@@ -13,6 +13,8 @@ class ConfigureImportController: UIViewController {
     
     var datatype: Datatype?
     var urls: [URL]?
+    var setupSync: Bool?
+    var urlString: String?
     
     private var labels: [InputIdentifier: UILabel] = [:]
     private var textFields: [InputIdentifier: UITextField] = [:]
@@ -31,44 +33,60 @@ class ConfigureImportController: UIViewController {
         
         inputs = Util.configurationInputs[datatype!.identifier]!
         
-        var tag = 0
-        
-        for input in inputs {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = input.label
-            label.textColor = UIColor.label
-            labels[input.identifier] = label
-            view.addSubview(label)
+        do {
+            let data = try String(contentsOfFile: urls![0].path)
             
-            if(input is TextConfigureInput){
-                let input = input as! TextConfigureInput
+            let lines = data.split(separator: "\n")
+            
+            if(lines.count > 1){
+                var tag = 0
                 
-                let textField = UITextField()
-                textField.translatesAutoresizingMaskIntoConstraints = false
-                textField.placeholder = input.placeholder
-                textField.text = input.placeholder
-                textField.keyboardType = input.keyboardType
-                textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-                textFields[input.identifier] = textField
-                view.addSubview(textField)
-            }else if(input is ColumnPickerInput){
-                let input = input as! ColumnPickerInput
+                for input in inputs {
+                    let label = UILabel()
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    label.text = input.label
+                    label.textColor = UIColor.label
+                    labels[input.identifier] = label
+                    view.addSubview(label)
+                    
+                    if(input is TextConfigureInput){
+                        let input = input as! TextConfigureInput
+                        
+                        let textField = UITextField()
+                        textField.translatesAutoresizingMaskIntoConstraints = false
+                        textField.placeholder = input.placeholder
+                        textField.text = input.placeholder
+                        textField.keyboardType = input.keyboardType
+                        textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+                        textFields[input.identifier] = textField
+                        view.addSubview(textField)
+                    }else if(input is ColumnPickerInput){
+                        let input = input as! ColumnPickerInput
+                        
+                        let openColumnPickerButton = UIButton()
+                        openColumnPickerButton.translatesAutoresizingMaskIntoConstraints = false
+                        openColumnPickerButton.setTitle("Set column number", for: .normal)
+                        openColumnPickerButton.setTitleColor(UIColor.label, for: .normal)
+                        openColumnPickerButton.tag = tag
+                        coloumnPickerTags[tag] = input.identifier
+                        tag += 1
+                        openColumnPickerButton.addTarget(self, action: #selector(openColoumnPicker), for: .touchUpInside)
+                        openColumnPickers[input.identifier] = openColumnPickerButton
+                        view.addSubview(openColumnPickerButton)
+                    }
+                }
                 
-                let openColumnPickerButton = UIButton()
-                openColumnPickerButton.translatesAutoresizingMaskIntoConstraints = false
-                openColumnPickerButton.setTitle("Set column number", for: .normal)
-                openColumnPickerButton.setTitleColor(UIColor.label, for: .normal)
-                openColumnPickerButton.tag = tag
-                coloumnPickerTags[tag] = input.identifier
-                tag += 1
-                openColumnPickerButton.addTarget(self, action: #selector(openColoumnPicker), for: .touchUpInside)
-                openColumnPickers[input.identifier] = openColumnPickerButton
-                view.addSubview(openColumnPickerButton)
+                setupConstraints()
+            }else{
+                Util.showAlert(controller: self, title: "Error", message: "File is empty") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }catch{
+            Util.showAlert(controller: self, title: "Error", message: "Error reading file") {
+                self.navigationController?.popViewController(animated: true)
             }
         }
-        
-        setupConstraints()
     }
     
     @objc private func openColoumnPicker(sender: UIButton){
@@ -180,7 +198,6 @@ class ConfigureImportController: UIViewController {
             }
         }
 
-        
         navigationItem.rightBarButtonItems?[1].isEnabled = valid
     }
     
@@ -205,12 +222,21 @@ class ConfigureImportController: UIViewController {
         do {
             let dataStructure = try Util.inputListToDataStructure(input: values, datatype: datatype!)
             
-            let runImportController = RunImportController()
-            runImportController.dataStructure = dataStructure
-            runImportController.urls = urls
-            runImportController.datatype = datatype
-            
-            navigationController?.pushViewController(runImportController, animated: true)
+            if(setupSync == true){
+                let setupSyncController = SetupSyncController()
+                setupSyncController.dataStructure = dataStructure
+                setupSyncController.datatype = datatype
+                setupSyncController.urlString = urlString
+                
+                navigationController?.pushViewController(setupSyncController, animated: true)
+            }else{
+                let runImportController = RunImportController()
+                runImportController.dataStructure = dataStructure
+                runImportController.urls = urls
+                runImportController.datatype = datatype
+                
+                navigationController?.pushViewController(runImportController, animated: true)
+            }
         }catch{
             Util.showAlert(controller: self, title: "Error parsing input", message: "There was a parse error. Please check your inputs") {
                 
