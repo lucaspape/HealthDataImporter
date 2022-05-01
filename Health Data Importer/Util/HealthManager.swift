@@ -91,13 +91,17 @@ class HealthManager {
         healthManager.requestHealthAccess { success, error in
             if(success){
                 healthManager.runSync {
-                    print("Sync done")
-                    
-                    task.setTaskCompleted(success: true)
+                    DispatchQueue.main.async {
+                        print("Sync done")
+                        
+                        task.setTaskCompleted(success: true)
+                    }
                 }
             }else{
-                print("Cannot sync, no access to health data")
-                task.setTaskCompleted(success: false)
+                DispatchQueue.main.async {
+                    print("Cannot sync, no access to health data")
+                    task.setTaskCompleted(success: false)
+                }
             }
         }
     }
@@ -117,23 +121,30 @@ class HealthManager {
     }
     
     private func runSync(completion: @escaping () -> Void) {
-        print("Running sync...")
-        
-        let syncs = syncDatabase.get()
-        
-        for sync in syncs {
-            if(sync.sync is HeartRateSync){
-                let sync = sync.sync as! HeartRateSync
-                
-                Util.downloadFile(urlString: sync.urlString) { success, url, error in
-                    if(success){
-                        self.importHeartRateFile(url: url!, heartRateDataStructure: sync.dataStructure, importType: "background-sync") { count, errors in
-                            print("synced")
+        DispatchQueue.global(qos: .background).async {
+            print("Running sync...")
+            
+            let syncs = self.syncDatabase.get()
+            
+            for sync in syncs {
+                if(sync.sync is HeartRateSync){
+                    let sync = sync.sync as! HeartRateSync
+                    
+                    Util.downloadFile(urlString: sync.urlString) { success, url, error in
+                        if(success){
+                            self.importHeartRateFile(url: url!, heartRateDataStructure: sync.dataStructure, importType: "background-sync") { count, errors in
+                                print("synced")
+                                
+                                completion()
+                            }
+                        }else{
+                            print("Failed to download data")
+                            
+                            completion()
                         }
-                    }else{
-                        print("Failed to download data")
-                        //TODO save error in log
                     }
+                }else{
+                    completion()
                 }
             }
         }

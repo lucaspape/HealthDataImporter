@@ -85,12 +85,11 @@
 		C23B234D2816898100DD02AA /* Health Data Importer */ = {
 			isa = PBXGroup;
 			children = (
+				C23F3DA7281E085700035352 /* Delegate */,
 				C23F3DA2281DD5AF00035352 /* Database */,
 				C28353902816DACC00F9DC02 /* Util */,
 				C283537F2816B16400F9DC02 /* ViewControllers */,
 				C23B23622816961800DD02AA /* Health Data Importer.entitlements */,
-				C23B234E2816898100DD02AA /* AppDelegate.swift */,
-				C23B23502816898100DD02AA /* SceneDelegate.swift */,
 				C23B23542816898100DD02AA /* Main.storyboard */,
 				C23B23572816898300DD02AA /* Assets.xcassets */,
 				C23B23592816898300DD02AA /* LaunchScreen.storyboard */,
@@ -114,6 +113,15 @@
 				C23F3DA5281DE8A400035352 /* SyncLogDatabase.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		C23F3DA7281E085700035352 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				C23B234E2816898100DD02AA /* AppDelegate.swift */,
+				C23B23502816898100DD02AA /* SceneDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 		C283537F2816B16400F9DC02 /* ViewControllers */ = {
