@@ -6,7 +6,6 @@
 //
 
 import HealthKit
-import BackgroundTasks
 
 class HealthManager {
     var healthStore: HKHealthStore!
@@ -71,53 +70,29 @@ class HealthManager {
         }
     }
     
-    static func registerBackgroundTask(){
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: HealthManager.backgroundTaskId, using: nil) { task in
-            HealthManager.scheduleBackgroundTask()
-            runBackgroundTask(task: task)
-        }
+    static func scheduleBackgroundTask(){
+        let calendar = Calendar.current
         
-        print("Registered background task")
-    }
-    
-    static private func runBackgroundTask(task: BGTask){
-        print("Hello from background task")
-        
-        task.expirationHandler = {
-            print("Task expired")
-        }
-        
-        let healthManager = HealthManager()
-        healthManager.requestHealthAccess { success, error in
-            if(success){
-                healthManager.runSync {
+        let task = BackgroundTask(run: {
+            scheduleBackgroundTask()
+            
+            let healthManager = HealthManager()
+            healthManager.requestHealthAccess { success, error in
+                if(success){
+                    healthManager.runSync {
+                        DispatchQueue.main.async {
+                            print("Sync done")
+                        }
+                    }
+                }else{
                     DispatchQueue.main.async {
-                        print("Sync done")
-                        
-                        task.setTaskCompleted(success: true)
+                        print("Cannot sync, no access to health data")
                     }
                 }
-            }else{
-                DispatchQueue.main.async {
-                    print("Cannot sync, no access to health data")
-                    task.setTaskCompleted(success: false)
-                }
             }
-        }
-    }
-    
-    static func scheduleBackgroundTask(){
-        let request = BGProcessingTaskRequest(identifier: HealthManager.backgroundTaskId)
-        request.requiresNetworkConnectivity = true
+        }, after: calendar.date(byAdding: .minute, value: 5, to: Date.now)!.timeIntervalSince1970)
         
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-        
-        do {
-          try BGTaskScheduler.shared.submit(request)
-            print("Scheduled background task")
-        } catch {
-            print("Could not schedule app refresh: \(error)")
-        }
+        Util.backgroundScheduler?.tasks.append(task)
     }
     
     private func runSync(completion: @escaping () -> Void) {

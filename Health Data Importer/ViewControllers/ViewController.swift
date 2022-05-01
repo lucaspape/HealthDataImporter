@@ -38,6 +38,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(tableView)
         
         setupConstraints()
+        
+        if(Util.backgroundScheduler == nil){
+            Util.backgroundScheduler = BackgroundScheduler()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

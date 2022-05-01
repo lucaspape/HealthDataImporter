@@ -70,16 +70,14 @@ class Util {
                 let response = urlResponse as! HTTPURLResponse
                 
                 if(response.statusCode == 200 && localURL != nil){
-                    let fileManager = FileManager()
-                    
                     do {
                         let destinationUrl = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(url!.lastPathComponent)
                         
-                        if(fileManager.fileExists(atPath: destinationUrl.path)){
-                            try fileManager.removeItem(at: destinationUrl)
+                        if(FileManager.default.fileExists(atPath: destinationUrl.path)){
+                            try FileManager.default.removeItem(at: destinationUrl)
                         }
                         
-                        try fileManager.copyItem(at: localURL!, to: destinationUrl)
+                        try FileManager.default.copyItem(at: localURL!, to: destinationUrl)
                         completion(true, destinationUrl, nil)
                     }catch{
                         completion(false, nil, nil)
@@ -114,6 +112,8 @@ class Util {
             controller.dismiss(animated: false, completion: completion)
         }
     }
+    
+    static var backgroundScheduler:BackgroundScheduler?
 }
 
 extension String: LocalizedError {

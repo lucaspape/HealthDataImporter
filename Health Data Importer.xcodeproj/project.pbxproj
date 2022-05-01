@@ -27,6 +27,7 @@
 		C2A7E566281E236C00B70F7D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E565281E236C00B70F7D /* ViewController.swift */; };
 		C2A7E56A281E36BE00B70F7D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E569281E36BE00B70F7D /* Logger.swift */; };
 		C2A7E56C281E371B00B70F7D /* ImportFromController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E56B281E371B00B70F7D /* ImportFromController.swift */; };
+		C2A7E56E281E468A00B70F7D /* BackgroundScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E56D281E468A00B70F7D /* BackgroundScheduler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		C2A7E565281E236C00B70F7D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C2A7E569281E36BE00B70F7D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C2A7E56B281E371B00B70F7D /* ImportFromController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportFromController.swift; sourceTree = "<group>"; };
+		C2A7E56D281E468A00B70F7D /* BackgroundScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundScheduler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				C28353882816C1EB00F9DC02 /* Structs.swift */,
 				C28353912816DAD800F9DC02 /* Util.swift */,
 				C2A7E569281E36BE00B70F7D /* Logger.swift */,
+				C2A7E56D281E468A00B70F7D /* BackgroundScheduler.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				C23F3DA6281DE8A500035352 /* SyncLogDatabase.swift in Sources */,
 				C283538D2816C58C00F9DC02 /* ConfigureImportController.swift in Sources */,
 				C28353962819F90400F9DC02 /* URLInputController.swift in Sources */,
+				C2A7E56E281E468A00B70F7D /* BackgroundScheduler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +396,8 @@
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location is used to update app in background";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is used to update app in background";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -424,6 +430,8 @@
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location is used to update app in background";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is used to update app in background";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
