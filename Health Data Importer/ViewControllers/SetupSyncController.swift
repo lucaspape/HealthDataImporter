@@ -35,7 +35,7 @@ class SetupSyncController: UIViewController {
                             case .heartRate:
                             try self.healthManager.addSync(sync: HeartRateSync(urlString: self.urlString!, dataStructure: self.dataStructure! as! HeartRateDataStructure))
                             default:
-                                print("unknown datatype")
+                                Logger.log(msg: "Unknown datatype")
                         }
                         
                         Util.showAlert(controller: self, title: "Setup sync", message: "Sync is set up") {

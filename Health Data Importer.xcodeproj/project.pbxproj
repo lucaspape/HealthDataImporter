@@ -26,6 +26,7 @@
 		C28353982819FA7F00F9DC02 /* SetupSyncController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28353972819FA7F00F9DC02 /* SetupSyncController.swift */; };
 		C283539A281A066400F9DC02 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2835399281A066400F9DC02 /* HealthManager.swift */; };
 		C2A7E566281E236C00B70F7D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E565281E236C00B70F7D /* ViewController.swift */; };
+		C2A7E568281E302500B70F7D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A7E567281E302500B70F7D /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		C28353972819FA7F00F9DC02 /* SetupSyncController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupSyncController.swift; sourceTree = "<group>"; };
 		C2835399281A066400F9DC02 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		C2A7E565281E236C00B70F7D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C2A7E567281E302500B70F7D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				C2835399281A066400F9DC02 /* HealthManager.swift */,
 				C28353882816C1EB00F9DC02 /* Structs.swift */,
 				C28353912816DAD800F9DC02 /* Util.swift */,
+				C2A7E567281E302500B70F7D /* Logger.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				C23F3DA4281DD5BC00035352 /* SyncDatabase.swift in Sources */,
 				C28353872816B1CE00F9DC02 /* ImportFromController.swift in Sources */,
 				C28353892816C1EB00F9DC02 /* Structs.swift in Sources */,
+				C2A7E568281E302500B70F7D /* Logger.swift in Sources */,
 				C28353982819FA7F00F9DC02 /* SetupSyncController.swift in Sources */,
 				C283538B2816C20C00F9DC02 /* SelectDataTypeController.swift in Sources */,
 				C23B234F2816898100DD02AA /* AppDelegate.swift in Sources */,
@@ -385,6 +389,7 @@
 				DEVELOPMENT_TEAM = RCK97TRSW5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Health Data Importer/Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -416,6 +421,7 @@
 				DEVELOPMENT_TEAM = RCK97TRSW5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Health Data Importer/Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To be able to import the data the app needs access to the health data";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

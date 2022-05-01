@@ -13,6 +13,10 @@ class SyncDatabase {
     private let path: String = "sync_database.sqlite"
     private let tableName: String = "syncs"
     
+    static var onChange = {
+        
+    }
+    
     init(){
         self.db = createDB()
         self.createTable()
@@ -24,10 +28,10 @@ class SyncDatabase {
         var db: OpaquePointer?
         
         if sqlite3_open(filePath.path, &db) != SQLITE_OK {
-            print("Error creating database")
+            Logger.log(msg: "Error creating database")
             return nil
         } else {
-            print("Created DB")
+            Logger.log(msg: "Opened/Created DB")
             return db
         }
     }
@@ -39,12 +43,12 @@ class SyncDatabase {
         
         if sqlite3_prepare(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("Created table")
+                Logger.log(msg: "Created Table")
             }else{
-                print("Failed to create table")
+                Logger.log(msg: "Failed to create table")
             }
         }else{
-            print("Preparation failed")
+            Logger.log(msg: "Database preparation failed")
         }
     }
     
@@ -73,17 +77,18 @@ class SyncDatabase {
                 sqlite3_bind_text(statement, 3, (data as NSString).utf8String, -1, nil)
                 
                 if sqlite3_step(statement) == SQLITE_DONE {
-                    print("Inserted")
                     return true
                 }else{
-                    print("Could not insert data")
+                    Logger.log(msg: "Could not insert data into table")
                 }
             }else{
-                print("Could not prepare db")
+                Logger.log(msg: "Could not prepare database")
             }
         }catch{
-            print("Failed to encode json")
+            Logger.log(msg: "JSON encode error")
         }
+        
+        SyncDatabase.onChange()
         
         return false
     }
@@ -103,15 +108,13 @@ class SyncDatabase {
                 let type = String(describing: String(cString: sqlite3_column_text(statement, 1)))
                 let data = String(describing: String(cString: sqlite3_column_text(statement, 2)))
                 
-                print(id)
-                
                 do {
                     if(type == "heartrate"){
                         let heartRateSync = try decoder.decode(HeartRateSync.self, from: data.data(using: .utf8)!)
                         list.append(SyncWithId(sync: heartRateSync, id: id))
                     }
                 }catch{
-                    print("Error decoding json")
+                    Logger.log(msg: "JSON decode error")
                 }
             }
         }
@@ -128,12 +131,13 @@ class SyncDatabase {
             sqlite3_bind_text(statement, 1, (id as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("Deleted")
                 return true
             }else{
-                print("Failed to delete")
+                Logger.log(msg: "Failed to delete")
             }
         }
+        
+        SyncDatabase.onChange()
         
         return false
     }

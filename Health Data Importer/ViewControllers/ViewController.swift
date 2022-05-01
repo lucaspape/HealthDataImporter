@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 import HealthKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -38,6 +37,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(tableView)
         
         setupConstraints()
+        
+        SyncLogDatabase.onChange = {
+            self.logs = self.logDatabase.get()
+            self.tableView.reloadData()
+        }
+        
+        SyncDatabase.onChange = {
+            self.syncs = self.syncDatabase.get()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

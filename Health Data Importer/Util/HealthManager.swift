@@ -77,14 +77,14 @@ class HealthManager {
             runBackgroundTask(task: task)
         }
         
-        print("Registered background task")
+        Logger.log(msg: "Registered background task")
     }
     
     static private func runBackgroundTask(task: BGTask){
-        print("Hello from background task")
+        Logger.log(msg: "Hello from background task")
         
         task.expirationHandler = {
-            print("Task expired")
+            Logger.log(msg: "Task expired")
         }
         
         let healthManager = HealthManager()
@@ -92,14 +92,14 @@ class HealthManager {
             if(success){
                 healthManager.runSync {
                     DispatchQueue.main.async {
-                        print("Sync done")
+                        Logger.log(msg: "Sync done")
                         
                         task.setTaskCompleted(success: true)
                     }
                 }
             }else{
                 DispatchQueue.main.async {
-                    print("Cannot sync, no access to health data")
+                    Logger.log(msg: "Cannot sync, no access to health data")
                     task.setTaskCompleted(success: false)
                 }
             }
@@ -114,15 +114,16 @@ class HealthManager {
         
         do {
           try BGTaskScheduler.shared.submit(request)
-            print("Scheduled background task")
+            Logger.log(msg: "Scheduled background task")
         } catch {
-            print("Could not schedule app refresh: \(error)")
+            Logger.log(msg: "Could not schedule app refresh")
+            Logger.log(error: error)
         }
     }
     
     private func runSync(completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).async {
-            print("Running sync...")
+            Logger.log(msg: "Running sync...")
             
             let syncs = self.syncDatabase.get()
             
@@ -133,12 +134,12 @@ class HealthManager {
                     Util.downloadFile(urlString: sync.urlString) { success, url, error in
                         if(success){
                             self.importHeartRateFile(url: url!, heartRateDataStructure: sync.dataStructure, importType: "background-sync") { count, errors in
-                                print("synced")
+                                Logger.log(msg: "Synced")
                                 
                                 completion()
                             }
                         }else{
-                            print("Failed to download data")
+                            Logger.log(msg: "Failed to download data")
                             
                             completion()
                         }
@@ -151,7 +152,7 @@ class HealthManager {
     }
     
     private func importHeartRateFile(url: URL, heartRateDataStructure: HeartRateDataStructure, importType: String, completion: @escaping (Int, [String]) -> Void){
-        print("Importing: " + url.path)
+        Logger.log(msg: "Importing: " + url.path)
         
         do {
             let data = try String(contentsOfFile: url.path)
@@ -205,18 +206,18 @@ class HealthManager {
             
             group.notify(queue: .main) {
                 if(self.syncLogDatabase.insert(log: Log(id: UUID().uuidString, date: Date.now, successCount: inserted, errorCount: errors.count, type: importType, fileName: url.lastPathComponent))){
-                    print("Saved log")
+                    Logger.log(msg: "Saved log")
                 }else{
-                    print("Failed to save log")
+                    Logger.log(msg: "Failed to save log")
                 }
                 
                 completion(inserted, errors)
             }
         } catch {
             if(self.syncLogDatabase.insert(log: Log(id: UUID().uuidString, date: Date.now, successCount: 0, errorCount: 1, type: importType, fileName: url.lastPathComponent))){
-                print("Saved log")
+                Logger.log(msg: "Saved log")
             }else{
-                print("Failed to save log")
+                Logger.log(msg: "Failed to save log")
             }
             
             completion(0, ["Error reading file"])
