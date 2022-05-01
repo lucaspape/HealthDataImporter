@@ -28,10 +28,12 @@ class Logger {
         let date = Date.now
         let dateString = dateFormatter.string(from: date)
         
+        let msg = dateString + ": " + msg + "\n"
+        
         do {
             let handle = try FileHandle(forWritingTo: log)
             handle.seekToEndOfFile()
-            handle.write((dateString + ": " + msg + "\n").data(using: .utf8)!)
+            handle.write(msg.data(using: .utf8)!)
             handle.closeFile()
         }catch{
             print(error.localizedDescription)
