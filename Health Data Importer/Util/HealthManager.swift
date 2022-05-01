@@ -71,8 +71,6 @@ class HealthManager {
     }
     
     static func scheduleBackgroundTask(){
-        let calendar = Calendar.current
-        
         let task = BackgroundTask(run: {
             scheduleBackgroundTask()
             
@@ -90,9 +88,12 @@ class HealthManager {
                     }
                 }
             }
-        }, after: calendar.date(byAdding: .minute, value: 5, to: Date.now)!.timeIntervalSince1970)
+        }, after: Date(timeIntervalSinceNow: 5 * 60))
         
-        Util.backgroundScheduler?.tasks.append(task)
+        Util.backgroundScheduler?.clearTasks()
+        Util.backgroundScheduler?.registerTask(task: task)
+        
+        print("Scheduled background task")
     }
     
     private func runSync(completion: @escaping () -> Void) {

@@ -27,7 +27,7 @@ class SyncDatabase {
             print("Error creating database")
             return nil
         } else {
-            print("Created DB")
+            print("Loaded/created DB")
             return db
         }
     }
@@ -102,8 +102,6 @@ class SyncDatabase {
                 let id = String(describing: String(cString: sqlite3_column_text(statement, 0)))
                 let type = String(describing: String(cString: sqlite3_column_text(statement, 1)))
                 let data = String(describing: String(cString: sqlite3_column_text(statement, 2)))
-                
-                print(id)
                 
                 do {
                     if(type == "heartrate"){

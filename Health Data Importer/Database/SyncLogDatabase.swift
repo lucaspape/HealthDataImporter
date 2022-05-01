@@ -27,7 +27,7 @@ class SyncLogDatabase {
             print("Error creating database")
             return nil
         } else {
-            print("Created DB")
+            print("Loaded/created DB")
             return db
         }
     }
@@ -74,7 +74,6 @@ class SyncLogDatabase {
         return false
     }
     
-    //TODO add sort
     func get() -> [Log] {
         var list: [Log] = []
         

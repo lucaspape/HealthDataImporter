@@ -57,7 +57,7 @@ class RunImportController:UIViewController {
                     }
                     
                     Util.showAlert(controller: self, title: "Error accessing health data", message: "There was an error accessing the health data: " + error!.localizedDescription) {
-                        self.navigationController?.popToRootViewController(animated: true)
+                        self.navigationController?.popViewController(animated: true)
                     }
                 }
             }

@@ -121,9 +121,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 if(syncDatabase.delete(id: sync.id)){
                     loadData()
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    tableView.reloadData()
                 }else{
-                    Util.showAlert(controller: self, title: "Error", message: "Coudl not remove sync") {}
+                    Util.showAlert(controller: self, title: "Error", message: "Could not remove sync") {}
                 }
             }
         }

@@ -9,13 +9,13 @@ import CoreLocation
 
 struct BackgroundTask {
     let run: () -> Void
-    let after: Double
+    let after: Date
 }
 
 class BackgroundScheduler: NSObject, CLLocationManagerDelegate {
-    var locationManager: CLLocationManager!
+    private var locationManager: CLLocationManager!
     
-    var tasks: [BackgroundTask] = []
+    private var tasks: [BackgroundTask] = []
     
     override init(){
         super.init()
@@ -23,26 +23,41 @@ class BackgroundScheduler: NSObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        
+        enableBackgroundUpdate()
+    }
+    
+    private func enableBackgroundUpdate(){
         locationManager.startUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = true
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {
-            print("authorized")
+            print("Always location authorized")
+        }else{
+            print("Always location not authorized")
         }
+        
+        enableBackgroundUpdate()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let currentTimestamp = Date.now.timeIntervalSince1970
-        
         for (i, task) in tasks.enumerated() {
-            if(currentTimestamp > task.after){
+            if(Date.now.timeIntervalSince1970 > task.after.timeIntervalSince1970){
                 tasks.remove(at: i)
                 task.run()
                 
                 break
             }
         }
+    }
+    
+    func registerTask(task: BackgroundTask){
+        tasks.append(task)
+    }
+    
+    func clearTasks(){
+        tasks = []
     }
 }
