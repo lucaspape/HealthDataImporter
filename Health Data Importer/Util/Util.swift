@@ -66,8 +66,6 @@ class Util {
         let url = URL(string: urlString.replacingOccurrences(of: "{CURRENT_DATE}", with: currentDate).replacingOccurrences(of: "{LAST_DATE}", with: yesterdayDate))
         
         if(url != nil){
-            let destinationUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(url!.lastPathComponent)
-            
             let task = URLSession.shared.downloadTask(with: url!) { localURL, urlResponse, error in
                 let response = urlResponse as! HTTPURLResponse
                 
@@ -75,6 +73,8 @@ class Util {
                     let fileManager = FileManager()
                     
                     do {
+                        let destinationUrl = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(url!.lastPathComponent)
+                        
                         if(fileManager.fileExists(atPath: destinationUrl.path)){
                             try fileManager.removeItem(at: destinationUrl)
                         }
