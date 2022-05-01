@@ -120,11 +120,13 @@ class SyncDatabase {
     }
     
     func delete(id: String) -> Bool {
-        let query = "DELETE FROM " + tableName + " where id = \(id)"
+        let query = "DELETE FROM " + tableName + " where id = ?"
         
         var statement : OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (id as NSString).utf8String, -1, nil)
+            
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Deleted")
                 return true
