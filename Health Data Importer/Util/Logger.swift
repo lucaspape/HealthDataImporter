@@ -23,10 +23,15 @@ class Logger {
         }catch{
         }
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd/hh:mm:ss"
+        let date = Date.now
+        let dateString = dateFormatter.string(from: date)
+        
         do {
             let handle = try FileHandle(forWritingTo: log)
             handle.seekToEndOfFile()
-            handle.write((msg + "\n").data(using: .utf8)!)
+            handle.write((dateString + ": " + msg + "\n").data(using: .utf8)!)
             handle.closeFile()
         }catch{
             print(error.localizedDescription)
