@@ -41,7 +41,7 @@ class RunImportController:UIViewController {
                             }else{
                                 let error = "There were " + String(errors.count) + " errors. " + String(count) + " objects imported successfully"
                                 
-                                Logger.log(msg: errors.joined(separator: ","))
+                                print(errors)
                                 
                                 Util.showAlert(controller: self, title: "Error importing data", message: error) {
                                     self.navigationController?.popToRootViewController(animated: true)

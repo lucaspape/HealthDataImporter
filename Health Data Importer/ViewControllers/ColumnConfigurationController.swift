@@ -123,10 +123,10 @@ class ColumnConfigurationController: UIViewController, UIPickerViewDelegate, UIP
                 
                 setupConstraints()
             }else{
-                Logger.log(msg: "Empty file")
+                print("Empty")
             }
         } catch {
-            Logger.log(msg: "Error reading file")
+            print("error reading file")
         }
     }
     

@@ -13,10 +13,6 @@ class SyncLogDatabase {
     private let path: String = "sync_log_database.sqlite"
     private let tableName: String = "logs"
     
-    static var onChange = {
-        
-    }
-    
     init(){
         self.db = createDB()
         self.createTable()
@@ -28,10 +24,10 @@ class SyncLogDatabase {
         var db: OpaquePointer?
         
         if sqlite3_open(filePath.path, &db) != SQLITE_OK {
-            Logger.log(msg: "Error creating database")
+            print("Error creating database")
             return nil
         } else {
-            Logger.log(msg: "Opened/Created Database")
+            print("Created DB")
             return db
         }
     }
@@ -43,12 +39,12 @@ class SyncLogDatabase {
         
         if sqlite3_prepare(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                Logger.log(msg: "Created table")
+                print("Created table")
             }else{
-                Logger.log(msg: "Failed to create table")
+                print("Failed to create table")
             }
         }else{
-            Logger.log(msg: "Failed to prepare database")
+            print("Preparation failed")
         }
     }
     
@@ -66,19 +62,19 @@ class SyncLogDatabase {
             sqlite3_bind_text(statement, 6, (log.fileName as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
+                print("Inserted")
                 return true
             }else{
-                Logger.log(msg: "Could not insert data into table")
+                print("Could not insert data")
             }
         }else{
-            Logger.log(msg: "Failed to prepare database")
+            print("Could not prepare db")
         }
-        
-        SyncLogDatabase.onChange()
         
         return false
     }
     
+    //TODO add sort
     func get() -> [Log] {
         var list: [Log] = []
         
